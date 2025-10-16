@@ -11,7 +11,7 @@ serve(async (req) => {
   }
 
   try {
-    const { messages } = await req.json();
+    const { messages, generateImage } = await req.json();
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     
     if (!LOVABLE_API_KEY) {
@@ -20,6 +20,45 @@ serve(async (req) => {
 
     console.log("Calling Lovable AI with", messages.length, "messages");
 
+    // If user requests image generation
+    if (generateImage) {
+      const lastMessage = messages[messages.length - 1];
+      const imageResponse = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${LOVABLE_API_KEY}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          model: "google/gemini-2.5-flash-image-preview",
+          messages: [
+            {
+              role: "user",
+              content: lastMessage.content
+            }
+          ],
+          modalities: ["image", "text"]
+        }),
+      });
+
+      if (!imageResponse.ok) {
+        throw new Error("Image generation failed");
+      }
+
+      const imageData = await imageResponse.json();
+      const generatedImage = imageData.choices?.[0]?.message?.images?.[0]?.image_url?.url;
+      const textResponse = imageData.choices?.[0]?.message?.content;
+
+      return new Response(
+        JSON.stringify({ 
+          image: generatedImage,
+          text: textResponse || "Here's your generated image!"
+        }),
+        { headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    // Regular chat
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
       headers: {
@@ -39,6 +78,7 @@ serve(async (req) => {
 - Understand context and follow up appropriately
 - Be accessible and easy to understand
 - Maintain a friendly, supportive tone
+- When users ask for images, diagrams, or visual content, let them know they can use the 🎨 Generate Image button
 
 Keep responses clear, concise, and well-formatted. Use bullet points for lists and break up long responses for readability.` 
           },

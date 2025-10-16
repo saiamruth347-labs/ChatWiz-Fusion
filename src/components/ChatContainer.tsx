@@ -7,6 +7,8 @@ import { Loader2 } from "lucide-react";
 interface Message {
   role: "user" | "assistant";
   content: string;
+  image?: string;
+  files?: File[];
 }
 
 const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/chat`;
@@ -25,8 +27,8 @@ export const ChatContainer = () => {
     scrollToBottom();
   }, [messages]);
 
-  const streamChat = async (userMessage: string) => {
-    const newMessages = [...messages, { role: "user" as const, content: userMessage }];
+  const streamChat = async (userMessage: string, files?: File[]) => {
+    const newMessages = [...messages, { role: "user" as const, content: userMessage, files }];
     setMessages(newMessages);
     setIsLoading(true);
 
@@ -110,6 +112,50 @@ export const ChatContainer = () => {
     }
   };
 
+  const generateImage = async (prompt: string) => {
+    const newMessages = [...messages, { role: "user" as const, content: `🎨 Generate: ${prompt}` }];
+    setMessages(newMessages);
+    setIsLoading(true);
+
+    try {
+      const response = await fetch(CHAT_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+        },
+        body: JSON.stringify({ 
+          messages: newMessages,
+          generateImage: true 
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || "Failed to generate image");
+      }
+
+      const data = await response.json();
+      setMessages((prev) => [
+        ...prev,
+        { 
+          role: "assistant", 
+          content: data.text || "Here's your generated image!",
+          image: data.image
+        }
+      ]);
+    } catch (error) {
+      console.error("Image generation error:", error);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: error instanceof Error ? error.message : "Failed to generate image",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="flex flex-col h-full bg-gradient-to-b from-background to-secondary/30">
       <div className="flex-1 overflow-y-auto px-4 py-6 space-y-6">
@@ -149,7 +195,13 @@ export const ChatContainer = () => {
         ) : (
           <>
             {messages.map((message, index) => (
-              <ChatMessage key={index} role={message.role} content={message.content} />
+              <ChatMessage 
+                key={index} 
+                role={message.role} 
+                content={message.content}
+                image={message.image}
+                files={message.files}
+              />
             ))}
           </>
         )}
@@ -170,7 +222,11 @@ export const ChatContainer = () => {
 
       <div className="border-t border-border bg-card/50 backdrop-blur-sm p-4">
         <div className="max-w-4xl mx-auto">
-          <ChatInput onSend={streamChat} disabled={isLoading} />
+          <ChatInput 
+            onSend={streamChat} 
+            onGenerateImage={generateImage}
+            disabled={isLoading} 
+          />
         </div>
       </div>
     </div>

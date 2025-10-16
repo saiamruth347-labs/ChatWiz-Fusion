@@ -1,12 +1,14 @@
 import { cn } from "@/lib/utils";
-import { Bot, User } from "lucide-react";
+import { Bot, User, Paperclip } from "lucide-react";
 
 interface ChatMessageProps {
   role: "user" | "assistant";
   content: string;
+  image?: string;
+  files?: File[];
 }
 
-export const ChatMessage = ({ role, content }: ChatMessageProps) => {
+export const ChatMessage = ({ role, content, image, files }: ChatMessageProps) => {
   const isUser = role === "user";
 
   return (
@@ -30,6 +32,28 @@ export const ChatMessage = ({ role, content }: ChatMessageProps) => {
             : "bg-card text-card-foreground border border-border"
         )}
       >
+        {files && files.length > 0 && (
+          <div className="flex flex-wrap gap-2 mb-2 pb-2 border-b border-current/20">
+            {files.map((file, index) => (
+              <div
+                key={index}
+                className="flex items-center gap-1 px-2 py-1 bg-background/20 rounded-full text-xs"
+              >
+                <Paperclip className="w-3 h-3" />
+                <span className="max-w-[100px] truncate">{file.name}</span>
+              </div>
+            ))}
+          </div>
+        )}
+        
+        {image && (
+          <img 
+            src={image} 
+            alt="Generated content" 
+            className="rounded-lg mb-2 max-w-full h-auto"
+          />
+        )}
+        
         <p className="whitespace-pre-wrap break-words leading-relaxed">
           {content}
         </p>
