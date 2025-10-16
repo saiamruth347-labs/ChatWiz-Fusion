@@ -114,17 +114,36 @@ export const ChatContainer = () => {
     <div className="flex flex-col h-full bg-gradient-to-b from-background to-secondary/30">
       <div className="flex-1 overflow-y-auto px-4 py-6 space-y-6">
         {messages.length === 0 ? (
-          <div className="flex flex-col items-center justify-center h-full text-center space-y-4">
+          <div className="flex flex-col items-center justify-center h-full text-center space-y-6 px-4">
             <div className="w-20 h-20 rounded-full bg-gradient-to-br from-primary to-purple-600 flex items-center justify-center shadow-glow">
               <span className="text-4xl">🤖</span>
             </div>
-            <div>
+            <div className="space-y-3">
               <h2 className="text-2xl font-bold bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
-                AI Chatbot
+                AI Customer Support Assistant
               </h2>
-              <p className="text-muted-foreground mt-2">
-                Start a conversation by typing a message below
+              <p className="text-muted-foreground max-w-md">
+                I'm here to help answer your questions, provide support, and engage in natural conversations. Ask me anything!
               </p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 w-full max-w-2xl mt-4">
+              {[
+                { icon: "💬", text: "How can you help me?", prompt: "What can you help me with?" },
+                { icon: "🎯", text: "Product Information", prompt: "Tell me about your products and services" },
+                { icon: "🔧", text: "Technical Support", prompt: "I need technical support" },
+                { icon: "📚", text: "General Questions", prompt: "I have a general question" },
+              ].map((suggestion, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => streamChat(suggestion.prompt)}
+                  className="flex items-center gap-3 p-4 bg-card border border-border rounded-xl hover:border-primary hover:shadow-subtle transition-all duration-300 text-left group"
+                >
+                  <span className="text-2xl">{suggestion.icon}</span>
+                  <span className="text-sm text-card-foreground group-hover:text-primary transition-colors">
+                    {suggestion.text}
+                  </span>
+                </button>
+              ))}
             </div>
           </div>
         ) : (
