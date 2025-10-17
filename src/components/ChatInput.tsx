@@ -100,7 +100,7 @@ export const ChatInput = ({ onSend, onGenerateImage, disabled }: ChatInputProps)
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Type your message..."
+            placeholder="Ask me anything or describe an image to generate..."
             className="min-h-[60px] max-h-[120px] resize-none bg-background border-border focus:border-primary transition-colors"
             disabled={disabled}
           />

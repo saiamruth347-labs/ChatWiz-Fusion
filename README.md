@@ -1,22 +1,16 @@
-# Welcome to your Lovable project
+# ChatWiz Fusion
 
 ## Project info
 
-**URL**: https://lovable.dev/projects/4c1ace4e-d7f8-4363-8a9c-28e07fcb55bd
+This repository contains the ChatWiz Fusion application — a local, self-hosted AI chat assistant boilerplate.
 
 ## How can I edit this code?
 
 There are several ways of editing your application.
 
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/4c1ace4e-d7f8-4363-8a9c-28e07fcb55bd) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
 **Use your preferred IDE**
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+If you want to work locally using your own IDE, clone this repo and push changes.
 
 The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
 
@@ -38,7 +32,7 @@ npm run dev
 
 **Edit a file directly in GitHub**
 
-- Navigate to the desired file(s).
+- Navigate to the desired file(s.
 - Click the "Edit" button (pencil icon) at the top right of the file view.
 - Make your changes and commit the changes.
 
@@ -62,12 +56,14 @@ This project is built with:
 
 ## How can I deploy this project?
 
-Simply open [Lovable](https://lovable.dev/projects/4c1ace4e-d7f8-4363-8a9c-28e07fcb55bd) and click on Share -> Publish.
+Deploy using your preferred platform (Vercel, Netlify, Cloudflare Pages, etc.) or your own server. Build with:
 
-## Can I connect a custom domain to my Lovable project?
+```sh
+npm run build
+```
 
-Yes, you can!
+Then host the `dist/` output on your preferred hosting provider.
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+## Custom domain / Hosting
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+Refer to your hosting provider's documentation for connecting a custom domain.

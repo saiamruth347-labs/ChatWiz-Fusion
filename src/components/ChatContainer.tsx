@@ -175,9 +175,9 @@ export const ChatContainer = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 w-full max-w-2xl mt-4">
               {[
                 { icon: "💬", text: "How can you help me?", prompt: "What can you help me with?" },
-                { icon: "🎯", text: "Product Information", prompt: "Tell me about your products and services" },
-                { icon: "🔧", text: "Technical Support", prompt: "I need technical support" },
-                { icon: "📚", text: "General Questions", prompt: "I have a general question" },
+                { icon: "👋", text: "Get Started", prompt: "Hi! What can you help me with?" },
+                { icon: "🎨", text: "Create Image", prompt: "Can you create an image of a beautiful sunset?" },
+                { icon: "�", text: "Ask Anything", prompt: "I'd like to learn something new!" },
               ].map((suggestion, idx) => (
                 <button
                   key={idx}
