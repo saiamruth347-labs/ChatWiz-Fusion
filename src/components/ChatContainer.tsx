@@ -4,6 +4,7 @@ import { ChatInput } from "./ChatInput";
 import TypingIndicator from "./TypingIndicator";
 import { useToast } from "@/hooks/use-toast";
 import { Menu, Sparkles, Sliders, Database, Info, HelpCircle } from "lucide-react";
+import { SplineSceneBasic } from "@/components/ui/demo";
 
 interface Message {
   role: "user" | "assistant";
@@ -294,27 +295,8 @@ export const ChatContainer = ({ sidebarOpen, setSidebarOpen, setMobileSidebarOpe
             {/* 3D Cyber grid floor in background */}
             <div className="absolute inset-0 cyber-grid-floor opacity-45 dark:opacity-25 pointer-events-none select-none"></div>
 
-            {/* 3D Floating Rings Hologram */}
-            <div className="relative w-28 h-28 flex items-center justify-center animate-float-3d perspective-1000 preserve-3d z-10">
-              {/* Glowing aura */}
-              <div className="absolute inset-2 bg-gradient-to-r from-primary to-purple-600 rounded-full blur-xl opacity-30"></div>
-              {/* Outer Ring */}
-              <div className="absolute w-28 h-28 rounded-full border border-primary/30 border-dashed animate-rotate-y preserve-3d"></div>
-              {/* Middle Ring */}
-              <div className="absolute w-22 h-22 rounded-full border-2 border-purple-500/20 border-double animate-rotate-x preserve-3d"></div>
-              {/* Center core */}
-              <div className="relative w-14 h-14 rounded-2xl bg-gradient-to-br from-primary to-purple-600 flex items-center justify-center border border-white/10 shadow-lg select-none transform translate-z-[20px] shadow-glow">
-                <Sparkles className="text-white w-7 h-7" />
-              </div>
-            </div>
-            
-            <div className="space-y-2.5 z-10">
-              <h2 className="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-primary via-purple-500 to-pink-500 bg-clip-text text-transparent sm:text-4xl">
-                ChatWiz Fusion
-              </h2>
-              <p className="text-muted-foreground text-sm sm:text-base max-w-lg mx-auto leading-relaxed">
-                Unlock the power of unified AI workflows. Generate artwork, debug production code, or consult our specialized customer agent.
-              </p>
+            <div className="w-full max-w-2xl z-10">
+              <SplineSceneBasic />
             </div>
 
             {/* Suggestions Cards with 3D Tilt */}
