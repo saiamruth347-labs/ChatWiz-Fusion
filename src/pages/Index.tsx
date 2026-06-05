@@ -3,6 +3,7 @@ import { ChatContainer } from "@/components/ChatContainer";
 import { StitchDashboard } from "@/components/StitchDashboard";
 import { StatsDashboard } from "@/components/StatsDashboard";
 import { HeroScrollDemo } from "@/components/ui/scroll-demo";
+import { SparklesLanding } from "@/components/ui/sparkles-demo";
 import { Moon, Sun, MessageSquare, Plus, Sparkles, Menu, X, ChevronLeft, Compass, Activity, Scroll } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/components/theme-provider";
@@ -13,6 +14,7 @@ const Index = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<"chat" | "stitch" | "stats" | "scroll">("chat");
+  const [hasEntered, setHasEntered] = useState(false);
 
   // Mock chat history
   const recentChats = [
@@ -25,6 +27,10 @@ const Index = () => {
   const handleNewChat = () => {
     setActiveTab("chat");
   };
+
+  if (!hasEntered) {
+    return <SparklesLanding onEnter={() => setHasEntered(true)} />;
+  }
 
   return (
     <div className="min-h-screen flex bg-background text-foreground overflow-hidden">
