@@ -2,7 +2,8 @@ import { useState } from "react";
 import { ChatContainer } from "@/components/ChatContainer";
 import { StitchDashboard } from "@/components/StitchDashboard";
 import { StatsDashboard } from "@/components/StatsDashboard";
-import { Moon, Sun, MessageSquare, Plus, Sparkles, Menu, X, ChevronLeft, Compass, Activity } from "lucide-react";
+import { HeroScrollDemo } from "@/components/ui/scroll-demo";
+import { Moon, Sun, MessageSquare, Plus, Sparkles, Menu, X, ChevronLeft, Compass, Activity, Scroll } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/components/theme-provider";
 import { cn } from "@/lib/utils";
@@ -11,7 +12,7 @@ const Index = () => {
   const { theme, toggleTheme } = useTheme();
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState<"chat" | "stitch" | "stats">("chat");
+  const [activeTab, setActiveTab] = useState<"chat" | "stitch" | "stats" | "scroll">("chat");
 
   // Mock chat history
   const recentChats = [
@@ -132,6 +133,21 @@ const Index = () => {
                 <Activity className="w-4 h-4 text-emerald-500" />
                 <span>Performance Stats</span>
               </button>
+              <button 
+                onClick={() => {
+                  setActiveTab("scroll");
+                  setMobileSidebarOpen(false);
+                }} 
+                className={cn(
+                  "flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm transition-all text-left",
+                  activeTab === "scroll" 
+                    ? "bg-secondary text-primary font-bold border border-border/40" 
+                    : "text-foreground/80 hover:bg-secondary/80 hover:text-foreground"
+                )}
+              >
+                <Scroll className="w-4 h-4 text-amber-500" />
+                <span>Scroll Showcase</span>
+              </button>
             </div>
           </div>
         </div>
@@ -200,8 +216,12 @@ const Index = () => {
             />
           ) : activeTab === "stitch" ? (
             <StitchDashboard />
-          ) : (
+          ) : activeTab === "stats" ? (
             <StatsDashboard />
+          ) : (
+            <div className="h-full w-full overflow-y-auto">
+              <HeroScrollDemo />
+            </div>
           )}
         </div>
       </main>
